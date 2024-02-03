@@ -17,24 +17,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     try {
 
         const body: FrameRequest = await req.json();
-        // const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
-
-        // if (isValid) {
-        //     accountAddress = message.interactor.verified_accounts[0];
-        // }
 
         console.log({ body })
 
-        // if (body?.untrustedData?.inputText) {
-        //     text = body.untrustedData.inputText;
-        // }
-
-        // console.log(`text is ${ text }`);
         const untrustedData = body.untrustedData
 
         console.log({ untrustedData });
 
-        //TODO : send data to backend
+        //TODO : send data to DB
+
 
 
     } catch (e) {
@@ -48,28 +39,15 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     console.log(fontData);
 
     //TODO : fetch data from backend and populate div
-    const svg = await satori(
-        <div style={{ color: 'black' }}>hello, world</div>,
-        {
-            width: 600,
-            height: 400,
-            fonts: [
-                {
-                    name: 'Roboto',
-                    // Use `fs` (Node.js only) or `fetch` to read the font as Buffer/ArrayBuffer and provide `data` here.
-                    data: fontData,
-                    weight: 400,
-                    style: 'normal',
-                },
-            ],
-        },
-    )
+
+    const imageUrl = `${NEXT_PUBLIC_URL}/api/image`
+
     return new NextResponse(
         `< !DOCTYPE html >
             <html>
                 <head>
                     <meta property="fc:frame" content="vNext" />
-                    <meta property="fc:frame:image" content="${svg}" />
+                    <meta property="fc:frame:image" content="${imageUrl}" />
                     <meta property="og:image" content="${NEXT_PUBLIC_URL}/park-2.png" />
                 </head>
             </html>
