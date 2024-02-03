@@ -33,25 +33,30 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     let accountAddress: string | undefined = '';
     let text: string | undefined = '';
 
-    const body: FrameRequest = await req.json();
-    // const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
+    try {
 
-    // if (isValid) {
-    //     accountAddress = message.interactor.verified_accounts[0];
-    // }
+        const body: FrameRequest = await req.json();
+        // const { isValid, message } = await getFrameMessage(body, { neynarApiKey: 'NEYNAR_ONCHAIN_KIT' });
 
-    console.log(`line 42 ${body}`)
+        // if (isValid) {
+        //     accountAddress = message.interactor.verified_accounts[0];
+        // }
 
-    if (body?.untrustedData?.inputText) {
-        text = body.untrustedData.inputText;
+        console.log({ body })
+
+        // if (body?.untrustedData?.inputText) {
+        //     text = body.untrustedData.inputText;
+        // }
+
+        // console.log(`text is ${ text }`);
+        const untrustedData = body.untrustedData
+
+        console.log({ untrustedData });
+
+        //TODO : transfer this text to the said user from 
+    } catch (e) {
+        console.log(e);
     }
-
-    console.log(`text is ${text}`);
-
-    console.log(body.untrustedData.castId.fid);
-
-    //TODO : transfer this text to the said user from 
-
 
 
 
@@ -69,6 +74,16 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest) {
     return getResponse(req);
 }
+
+// export async function GET(req: NextRequest) {
+//     return new NextResponse({ 'hello': '123' }, {
+//         status: 200,
+//         headers: {
+//             'Content-Type': 'application/json',
+//         },
+//     })
+
+// }
 
 
 
