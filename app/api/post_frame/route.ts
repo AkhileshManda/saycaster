@@ -23,7 +23,7 @@ const messageSentFrame =
         <html>
         <head>
             <meta property="fc:frame" content = "vNext" />
-            <meta property="fc:frame:image" content = "${NEXT_PUBLIC_URL}/park-2.png" />
+            <meta property="fc:frame:image" content = "${NEXT_PUBLIC_URL}/api/get_text" />
             <meta property="og:image" content = "${NEXT_PUBLIC_URL}/park-2.png" />
         </head>
         </html>`
@@ -53,7 +53,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         console.log({ untrustedData });
 
-        //TODO : transfer this text to the said user from 
+        //TODO : send data to backend
     } catch (e) {
         console.log(e);
     }
