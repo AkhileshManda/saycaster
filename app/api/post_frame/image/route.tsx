@@ -4,11 +4,17 @@ import { kv } from "@vercel/kv";
 import satori from "satori";
 import { join } from 'path';
 import * as fs from "fs";
+import { NextRequest, NextResponse } from 'next/server';
 
-const fontPath = join(process.cwd(), 'Roboto-Regular.ttf')
+const fontPath = join(process.cwd(), 'Roboto-Black.ttf')
 let fontData = fs.readFileSync(fontPath)
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+console.log(fontData);
+
+export const GET = async (req: NextRequest, res: NextApiResponse) => {
+
+    console.log(req.method)
+
     try {
 
         const svg = await satori(
@@ -30,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 }}>
                     <h2 style={{ textAlign: 'center', color: 'lightgray' }}>HelloWorld</h2>
 
-                    {/*{showResults ? <h3 style={{color: "darkgray"}}>Total votes: {totalVotes}</h3> : ''}*/}
+
                 </div>
             </div>
             ,
@@ -48,12 +54,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             .toFormat('png')
             .toBuffer();
 
-        // Set the content type to PNG and send the response
-        res.setHeader('Content-Type', 'image/png');
-        res.setHeader('Cache-Control', 'max-age=10');
-        res.send(pngBuffer);
+
+
+        return new NextResponse(
+            pngBuffer,
+            {
+                status: 200,
+                headers: {
+                    'Content-Type': 'image/png',
+                    'Cache-Control': 'max-age=10'
+                },
+            }
+        );
+
     } catch (error) {
         console.error(error);
-        res.status(500).send('Error generating image');
     }
 }
+

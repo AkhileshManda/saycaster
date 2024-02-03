@@ -40,7 +40,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     //TODO : fetch data from backend and populate div
 
-    const imageUrl = `${NEXT_PUBLIC_URL}/api/image`
+    const imageUrl = `${NEXT_PUBLIC_URL}/api/post_frame/image`
 
     return new NextResponse(
         `< !DOCTYPE html >
