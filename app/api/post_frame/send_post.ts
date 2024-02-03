@@ -24,6 +24,7 @@ const messageSentFrame =
         <head>
             <meta property="fc:frame" content = "vNext" />
             <meta property="fc:frame:image" content = "${NEXT_PUBLIC_URL}/park-2.png" />
+            <meta property="og:image" content = "${NEXT_PUBLIC_URL}/park-2.png" />
         </head>
         </html>`
 
@@ -38,6 +39,8 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
     // if (isValid) {
     //     accountAddress = message.interactor.verified_accounts[0];
     // }
+
+    console.log(`line 42 ${body}`)
 
     if (body?.untrustedData?.inputText) {
         text = body.untrustedData.inputText;
