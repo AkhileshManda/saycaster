@@ -1,29 +1,13 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
+import { Inter } from 'next/font/google';
 import { NextRequest, NextResponse } from 'next/server';
+import { join } from 'path';
 import satori from 'satori';
+const fs = require('fs');
+
 
 
 const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app';
-
-//Just for ref: 
-const sendAnonMessageFrame =
-    `
-        < !DOCTYPE html >
-        <html>
-        <head>
-            <meta property="fc:frame" content = "vNext" />
-            <meta property="fc:frame:image" content = "${NEXT_PUBLIC_URL}/park-1.png" />
-            <meta property="fc:input:text" content = "Enter Text Here" />
-            <meta property="fc:frame:button:1" content = "${NEXT_PUBLIC_URL}/api/post_frame" />
-        </head>
-        </html>`
-
-
-const messageSentFrame =
-    `
-       `
-
-
 
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -57,12 +41,26 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         console.log(e);
     }
 
+
+    const fontPath = join(process.cwd(), "Roboto-Black.ttf");
+    const fontData = fs.readFileSync(fontPath);
+
+    console.log(fontData);
+
+    //TODO : fetch data from backend and populate div
     const svg = await satori(
         <div style={{ color: 'black' }}>hello, world</div>,
         {
             width: 600,
             height: 400,
             fonts: [
+                {
+                    name: 'Roboto',
+                    // Use `fs` (Node.js only) or `fetch` to read the font as Buffer/ArrayBuffer and provide `data` here.
+                    data: fontData,
+                    weight: 400,
+                    style: 'normal',
+                },
             ],
         },
     )
