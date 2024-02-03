@@ -1,5 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
+import satori from 'satori';
+
 
 const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app';
 
@@ -19,14 +21,9 @@ const sendAnonMessageFrame =
 
 const messageSentFrame =
     `
-        < !DOCTYPE html >
-        <html>
-        <head>
-            <meta property="fc:frame" content = "vNext" />
-            <meta property="fc:frame:image" content = "${NEXT_PUBLIC_URL}/api/get_text" />
-            <meta property="og:image" content = "${NEXT_PUBLIC_URL}/park-2.png" />
-        </head>
-        </html>`
+       `
+
+
 
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
@@ -54,14 +51,31 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         console.log({ untrustedData });
 
         //TODO : send data to backend
+
+
     } catch (e) {
         console.log(e);
     }
 
-
-
+    const svg = await satori(
+        <div style={{ color: 'black' }}>hello, world</div>,
+        {
+            width: 600,
+            height: 400,
+            fonts: [
+            ],
+        },
+    )
     return new NextResponse(
-        messageSentFrame,
+        `< !DOCTYPE html >
+            <html>
+                <head>
+                    <meta property="fc:frame" content="vNext" />
+                    <meta property="fc:frame:image" content="${svg}" />
+                    <meta property="og:image" content="${NEXT_PUBLIC_URL}/park-2.png" />
+                </head>
+            </html>
+        `,
         {
             status: 200,
             headers: {
@@ -75,15 +89,6 @@ export async function POST(req: NextRequest) {
     return getResponse(req);
 }
 
-// export async function GET(req: NextRequest) {
-//     return new NextResponse({ 'hello': '123' }, {
-//         status: 200,
-//         headers: {
-//             'Content-Type': 'application/json',
-//         },
-//     })
-
-// }
 
 
 
