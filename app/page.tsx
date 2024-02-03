@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export async function generateMetadata(): Promise<Metadata> {
   // const imageUrl = `${process.env['HOST']}/images/welcome.png`;
-  const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app/';
+  const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app';
   const imageUrl = `${NEXT_PUBLIC_URL}/park-1.png`;
   const postUrl = `${NEXT_PUBLIC_URL}/api/post_frame`
 
