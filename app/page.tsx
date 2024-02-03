@@ -18,7 +18,7 @@ export async function generateMetadata(): Promise<Metadata> {
       'fc:frame': 'vNext',
       'fc:frame:image': imageUrl,
       'fc:frame:post_url': postUrl,
-      'fc:input:text': 'Enter Text Here',
+      'fc:frame:input:text': 'Enter Text Here',
       'fc:frame:button:1': 'Submit',
     },
   };
