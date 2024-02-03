@@ -1,7 +1,7 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
 import { NextRequest, NextResponse } from 'next/server';
 
-const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app/';
+const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app';
 
 //Just for ref: 
 const sendAnonMessageFrame =
@@ -49,7 +49,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
     //TODO : transfer this text to the said user from 
 
-    
+
 
 
     return new NextResponse(
