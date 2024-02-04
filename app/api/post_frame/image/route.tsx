@@ -14,6 +14,8 @@ let fontData = fs.readFileSync(fontPath)
 
 console.log(fontData);
 
+export const dynamic = "force-dynamic"
+
 export const GET = async (req: NextRequest, res: NextApiResponse) => {
     //pWHfcreOe3mojaRg
     // console.log(req)
@@ -25,7 +27,7 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
 
         console.log({ body })
 
-        const untrustedData: FrameData = body.untrustedData
+        const untrustedData: FrameData = body?.untrustedData
 
         console.log({ untrustedData });
 
