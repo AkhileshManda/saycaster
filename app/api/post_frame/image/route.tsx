@@ -6,6 +6,8 @@ import { join } from 'path';
 import * as fs from "fs";
 import { NextRequest, NextResponse } from 'next/server';
 import { MongoClient, ServerApiVersion } from 'mongodb';
+import { FrameRequest } from '@coinbase/onchainkit';
+import { FrameData } from '@coinbase/onchainkit/dist/types/core/types';
 
 const fontPath = join(process.cwd(), 'Roboto-Black.ttf')
 let fontData = fs.readFileSync(fontPath)
@@ -18,6 +20,14 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
     const MONGO_URL = `mongodb+srv://mandaakhilesh4:${process.env.NEXT_MONGO_PASSWORD}@cluster0.tgqtucm.mongodb.net/?retryWrites=true&w=majority`
     console.log(MONGO_URL);
     try {
+
+        const body: FrameRequest = await req.json();
+
+        console.log({ body })
+
+        const untrustedData: FrameData = body.untrustedData
+
+        console.log({ untrustedData });
 
         const client = new MongoClient(MONGO_URL, {
             serverApi: {
@@ -33,7 +43,7 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
 
         // Select the database and collection
         const database = client.db('saycast');
-        const collection = database.collection('temp');
+        const collection = database.collection(untrustedData.fid.toString());
 
         // Query to get the latest 5 documents
         const latestDocuments = await collection.find().sort({ _id: -1 }).limit(5).toArray();
