@@ -5,6 +5,7 @@ import satori from "satori";
 import { join } from 'path';
 import * as fs from "fs";
 import { NextRequest, NextResponse } from 'next/server';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 
 const fontPath = join(process.cwd(), 'Roboto-Black.ttf')
 let fontData = fs.readFileSync(fontPath)
@@ -12,10 +13,37 @@ let fontData = fs.readFileSync(fontPath)
 console.log(fontData);
 
 export const GET = async (req: NextRequest, res: NextApiResponse) => {
-
-    console.log(req.method)
-
+    //pWHfcreOe3mojaRg
+    // console.log(req)
+    const MONGO_URL = `mongodb+srv://mandaakhilesh4:${process.env.NEXT_MONGO_PASSWORD}@cluster0.tgqtucm.mongodb.net/?retryWrites=true&w=majority`
+    console.log(MONGO_URL);
     try {
+
+        const client = new MongoClient(MONGO_URL, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            }
+        });
+
+
+        await client.connect();
+        console.log('Connected to MongoDB');
+
+        // Select the database and collection
+        const database = client.db('saycast');
+        const collection = database.collection('temp');
+
+        // Query to get the latest 5 documents
+        const latestDocuments = await collection.find().sort({ _id: -1 }).limit(5).toArray();
+
+        // Display the results
+        console.log('Latest 5 documents:', latestDocuments);
+
+        // Close the MongoDB connection
+        await client.close();
+        console.log('Disconnected from MongoDB');
 
         const svg = await satori(
             <div style={{

@@ -1,4 +1,6 @@
 import { FrameRequest, getFrameMessage, getFrameHtmlResponse } from '@coinbase/onchainkit';
+import { FrameData } from '@coinbase/onchainkit/dist/types/core/types';
+import { MongoClient, ServerApiVersion } from 'mongodb';
 import { Inter } from 'next/font/google';
 import { NextRequest, NextResponse } from 'next/server';
 import { join } from 'path';
@@ -9,10 +11,23 @@ const fs = require('fs');
 
 const NEXT_PUBLIC_URL = 'https://saycaster.vercel.app';
 
+const MONGO_URL = `mongodb+srv://mandaakhilesh4:${process.env.NEXT_MONGO_PASSWORD}@cluster0.tgqtucm.mongodb.net/?retryWrites=true&w=majority`
+console.log(process.env.NEXT_MONGO_PASSWORD);
+
+const client = new MongoClient(MONGO_URL, {
+    serverApi: {
+        version: ServerApiVersion.v1,
+        strict: true,
+        deprecationErrors: true,
+    }
+});
+
 
 async function getResponse(req: NextRequest): Promise<NextResponse> {
     let accountAddress: string | undefined = '';
     let text: string | undefined = '';
+
+    console.log({ req });
 
     try {
 
@@ -20,12 +35,38 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 
         console.log({ body })
 
-        const untrustedData = body.untrustedData
+        const untrustedData: FrameData = body.untrustedData
 
         console.log({ untrustedData });
 
         //TODO : send data to DB
 
+        await client.connect();
+        console.log("connected");
+        // Send a ping to confirm a successful connection
+        const database = client.db('saycaster');
+        const collection = database.collection("temp");
+
+        const jsonData = {
+            "from": untrustedData.fid.toString(),
+            "to": untrustedData.castId.fid.toString(),
+            "body": untrustedData.inputText
+        }
+
+
+        // const jsonData = {
+        //     "from": "1",
+        //     "to": "2",
+        //     "body": "abc"
+        // }
+
+        // Insert the JSON data into MongoDB
+        await collection.insertOne(jsonData);
+        console.log('Data stored in MongoDB');
+
+        // Close the MongoDB connection
+        await client.close();
+        console.log('Disconnected from MongoDB');
 
 
     } catch (e) {
@@ -64,8 +105,3 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
 export async function POST(req: NextRequest) {
     return getResponse(req);
 }
-
-
-
-
-
