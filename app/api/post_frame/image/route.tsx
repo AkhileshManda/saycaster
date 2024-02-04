@@ -48,7 +48,7 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
         const collection = database.collection("temp");
 
         // Query to get the latest 5 documents
-        const latestDocuments = await collection.find().sort({ _id: -1 }).limit(5).toArray();
+        const latestDocuments = await collection.find().sort({ _id: -1 }).limit(2).toArray();
 
         const filteredDocuments = latestDocuments.filter(doc => doc.to === untrustedData.fid);
 
