@@ -39,14 +39,19 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
 
 
         await client.connect();
-        console.log('Connected to MongoDB');
+        console.log('Connected to MongoDB ');
 
         // Select the database and collection
-        const database = client.db('saycast');
-        const collection = database.collection(untrustedData.fid.toString());
+        const database = client.db('saycaster');
+        const collection = database.collection("temp");
 
         // Query to get the latest 5 documents
         const latestDocuments = await collection.find().sort({ _id: -1 }).limit(5).toArray();
+
+        const filteredDocuments = latestDocuments.filter(doc => doc.to === untrustedData.fid);
+
+        console.log(filteredDocuments);
+
 
         // Display the results
         console.log('Latest 5 documents:', latestDocuments);
@@ -72,9 +77,9 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
                     flexDirection: 'column',
                     padding: 20,
                 }}>
-                    <h2 style={{ textAlign: 'center', color: 'lightgray' }}>HelloWorld</h2>
-
-
+                    {filteredDocuments.map((document, index) => (
+                        <h2 style={{ textAlign: 'center', color: 'lightgray' }}>{document.body}</h2>
+                    ))}
                 </div>
             </div>
             ,

@@ -45,7 +45,7 @@ async function getResponse(req: NextRequest): Promise<NextResponse> {
         console.log("connected");
         // Send a ping to confirm a successful connection
         const database = client.db('saycaster');
-        const collection = database.collection(untrustedData.castId.fid.toString());
+        const collection = database.collection("temp");
 
         const jsonData = {
             "from": untrustedData.fid.toString(),
