@@ -23,6 +23,7 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
     console.log(MONGO_URL);
     try {
 
+        console.log({ req });
         const body: FrameRequest = await req.json();
 
         console.log({ body })
