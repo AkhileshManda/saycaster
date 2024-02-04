@@ -78,7 +78,7 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
                     padding: 20,
                 }}>
                     {filteredDocuments.map((document, index) => (
-                        <h2 style={{ textAlign: 'center', color: 'lightgray' }}>{document.body}</h2>
+                        <h2 key={index} style={{ textAlign: 'center', color: 'lightgray' }}>{document.body}</h2>
                     ))}
                 </div>
             </div>
