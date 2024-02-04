@@ -24,7 +24,7 @@ export const GET = async (req: NextRequest, res: NextApiResponse) => {
     try {
 
         console.log({ req });
-        const body: FrameRequest = await req.json();
+        const body: FrameRequest = await req?.json();
 
         console.log({ body })
 
